@@ -128,6 +128,35 @@
         </div>
 
     </div>
+    
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer" style="display:none"></div>
+
+    <script>
+        (function(){
+            function showToast(title, message, type){
+                var container = document.getElementById('toastContainer');
+                if(!container) return;
+                container.style.display='block';
+                var toast = document.createElement('div');
+                toast.className = 'toast ' + (type||'error');
+                toast.innerHTML = '<div class="title">'+(title||'')+'</div><div class="message">'+(message||'')+'</div>';
+                container.appendChild(toast);
+                setTimeout(function(){ toast.classList.add('show'); }, 10);
+                setTimeout(function(){ toast.classList.remove('show'); setTimeout(function(){ try{ container.removeChild(toast); }catch(e){} if(container.children.length===0) container.style.display='none'; },300); }, 4500);
+            }
+
+            var lbl = document.getElementById('<%= msg.ClientID %>');
+            if(lbl){
+                var text = (lbl.innerText || lbl.textContent || '').trim();
+                if(text){
+                    lbl.style.display='none';
+                    showToast('Error', text, 'error');
+                }
+            }
+        })();
+    </script>
 
 </body>
 

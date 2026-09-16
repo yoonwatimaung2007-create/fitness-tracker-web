@@ -23,159 +23,4 @@
 
     <div class="container">
 
-        <div class="content">
-
-
-            <div class="left">
-
-                <h1>
-                    FITNESS<br>
-                    TRACKER
-                </h1>
-
-                <p>
-                    Start your fitness journey today and achieve
-                    your health goals.
-                </p>
-
-            </div>
-
-
-            <div class="right">
-
-                <h2>REGISTER</h2>
-                <form id="form1" runat="server">
-               <asp:Label ID="msg" runat="server" CssClass="message"></asp:Label>
-                <p class="welcome"> 
-                    Join us and start tracking your fitness journey.
-                </p>
-
-
-              
-
-                
-
-
-                    <!-- Username -->
-
-                    <div class="row">
-
-                        <label for="uname">
-
-                            <i class="fa-regular fa-user"></i>
-                        Username
-                        </label>
-
-                        <input type="text"
-                               id="uname"
-                               required
-                               placeholder="User Name"
-                               pattern="^[a-zA-Z0-9]+$" 
-                               runat="server">
-                        <asp:Label ID="usernameError"
-                        runat="server"
-                            CssClass="error-message"
-                            Text="Use letters and numbers only"
-                            Visible="false">
-
-                        </asp:Label>
-
-                    </div>
-
-
-                    <!-- Email -->
-
-                    <div class="row">
-
-                        <label for="uemail">
-
-                            <i class="fa-regular fa-envelope"></i>
-                        Email
-                        </label>
-
-                        <input type="email"
-                               id="uemail"
-                               required
-                               placeholder="Email" runat="server">
-                            
-                    </div>
-
-
-                    <!-- Password -->
-
-                    <div class="row">
-
-                        <label for="upass">
-
-                            <i class="fa-solid fa-key"></i>
-                        Password
-                        </label>
-
-                        <input type="password"
-                               id="upass"
-                               required
-                               placeholder="Password"
-                               pattern="^(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{12}$" runat="server">
-
-
-                    </div>
-
-
-                    <!-- Confirm Password -->
-
-                    <div class="row">
-
-                        <label for="ucpass">
-
-                            <i class="fa-solid fa-key"></i>
-                        Confirm Password
-                        </label>
-
-                        <input type="password"
-                               id="ucpass"
-                               required
-                               placeholder="Confirm Password" runat="server">
-
-                    </div>
-                    <!-- I agree to the Terms and Privacy Policy-->
-                    <div class="agree">
-                        <input type="checkbox" id="Terms" required>
-                        <label for="Terms">
-                            I agree to the 
-                            <a href="#">Terms</a>
-                            and 
-                            <a href="#">Privacy Policy</a>
-                        </label>
-                    </div>
-
-                    <!-- Create Account -->
-
-                    <div class="btnrow">
-                        <asp:Button ID="btnRegister" runat="server" Text="Create Account" CssClass="btn" OnClick="btnRegister_Click" />
-                          
-                    </div>
-
-
-                </form>
-
-
-                <p class="login">
-
-                    Already have an account?
-
-                    <a href="login.aspx">
-                        Login
-                    </a>
-
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</body>
-
-</html>
+        <div class="content">            <div class="left">                <h1>                    FITNESS<br>                    TRACKER                </h1>                <p>                    Start your fitness journey today and achieve                    your health goals.                </p>            </div>            <div class="right">                <h2>REGISTER</h2>                <form id="form1" runat="server">               <asp:Label ID="msg" runat="server" CssClass="message"></asp:Label>                <p class="welcome">                     Join us and start tracking your fitness journey.                </p>                    <!-- Username -->                    <div class="row">                        <label for="uname">                            <i class="fa-regular fa-user"></i>                        Username                        </label>                        <input type="text"                               id="uname"                               required                               placeholder="User Name"                               pattern="^[a-zA-Z0-9]+$"                                runat="server">                        <asp:Label ID="usernameError"                        runat="server"                            CssClass="error-message"                            Text="Use letters and numbers only"                            Visible="false">                        </asp:Label>                    </div>                    <!-- Email -->                    <div class="row">                        <label for="uemail">                            <i class="fa-regular fa-envelope"></i>                        Email                        </label>                        <input type="email"                               id="uemail"                               required                               placeholder="Email" runat="server">                                                </div>                    <!-- Password -->                    <div class="row">                        <label for="upass">                            <i class="fa-solid fa-key"></i>                        Password                        </label>                        <input type="password"                               id="upass"                               required                               placeholder="Password"                               pattern="^(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{12}$" runat="server">                    </div>                    <!-- Confirm Password -->                    <div class="row">                        <label for="ucpass">                            <i class="fa-solid fa-key"></i>                        Confirm Password                        </label>                        <input type="password"                               id="ucpass"                               required                               placeholder="Confirm Password" runat="server">                    </div>                    <!-- I agree to the Terms and Privacy Policy-->                    <div class="agree">                        <input type="checkbox" id="Terms" required>                        <label for="Terms">                            I agree to the                             <a href="#">Terms</a>                            and                             <a href="#">Privacy Policy</a>                        </label>                    </div>                    <!-- Create Account -->                    <div class="btnrow">                        <asp:Button ID="btnRegister" runat="server" Text="Create Account" CssClass="btn" OnClick="btnRegister_Click" />                                              </div>                </form>                <p class="login">                    Already have an account?                    <a href="login.aspx">                        Login                    </a>                </p>            </div>        </div>    </div>    <!-- Toast container -->    <div class="toast-container" id="toastContainer" style="display:none"></div>    <script>        (function(){            function showToast(title, message, type){                var container = document.getElementById('toastContainer');                if(!container) return;                container.style.display='block';                var toast = document.createElement('div');                toast.className = 'toast ' + (type||'error');                toast.innerHTML = '<div class="title">'+(title||'')+'</div><div class="message">'+(message||'')+'</div>';                container.appendChild(toast);                setTimeout(function(){ toast.classList.add('show'); }, 10);                setTimeout(function(){ toast.classList.remove('show'); setTimeout(function(){ try{ container.removeChild(toast); }catch(e){} if(container.children.length===0) container.style.display='none'; },300); }, 4500);            }            var lbl = document.getElementById('<%= msg.ClientID %>');            if(lbl){                var text = (lbl.innerText || lbl.textContent || '').trim();                if(text){                    lbl.style.display='none';                    showToast('Error', text, 'error');                }            }        })();    </script></body></html>
