@@ -1,0 +1,261 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+
+    background-image:
+    linear-gradient(
+        rgba(0, 0, 0, 0.55),
+        rgba(0, 0, 0, 0.70)
+    ),
+    url("https://aspireperformance.ie/wp-content/uploads/2020/10/Individual-Fitness-Program-Design%E2%80%8B.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 100vh;
+}
+
+
+/* Main container */
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Main content */
+
+.content {
+    width: 1000px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Left side */
+
+.left {
+    width: 50%;
+
+    color: rgb(254, 254, 254);
+}
+
+
+/* Fitness Tracker title */
+
+.left h1 {
+    font-size: 60px;
+
+    font-weight: bold;
+
+    line-height: 1.1;
+
+    margin-bottom: 20px;
+}
+
+
+/* Description */
+
+.left p {
+    width: 400px;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    color: #08faee;
+}
+
+
+/* Right side form */
+
+.right {
+    width: 400px;
+
+    padding: 35px;
+
+    background-color: rgba(25, 25, 25, 0.85);
+
+    border-radius: 10px;
+
+    color: rgb(243, 238, 238);
+}
+
+/* Terms and Privacy Policy */
+.agree {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 8px;
+
+}
+.agree input{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+.agree label {
+    color :#f7f4f4
+    font-size 14px;
+}
+.agree a {
+    color:#f5f5f5
+    text-decoration: none;
+    font-weight: bold;
+
+
+}    
+   
+.right h2 {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+
+.welcome {
+    font-size: 14px;
+
+    color: #cccccc;
+
+    margin-bottom: 25px;
+}
+
+
+/* Form row */
+
+.row {
+    margin-bottom: 18px;
+}
+
+
+.row label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+    
+    color:#bdabab;
+}
+
+
+/* Input box */
+
+.row input {
+    width: 100%;
+
+    padding: 12px;
+
+    background-color: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid #777777;
+
+    border-radius: 5px;
+
+    color: white;
+
+    outline: none;
+}
+
+
+.row input:placeholder {
+    color: #e8dddd;
+}
+
+
+.row input:focus {
+    border: 1px solid #e6ff00;
+}
+
+
+
+
+/* Center Create Account button */
+.btnrow {
+    text-align: center;
+}
+
+.btn {
+    background-color: #eb0e0e;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+   
+    
+}
+
+
+button:hover {
+    background-color: rgb(255, 255, 255);
+   
+}
+
+
+/* Login */
+
+.login {
+    text-align: center;
+
+    margin-top: 20px;
+
+    font-size: 14px;
+
+    color: #cccccc;
+}
+
+
+.login a {
+    color: #e6ff00;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+#msg{
+    color:red;
+    display: block;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+.forgot-password {
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    color: #cccccc;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    color: #e6ff00;
+    text-decoration: underline;
+}

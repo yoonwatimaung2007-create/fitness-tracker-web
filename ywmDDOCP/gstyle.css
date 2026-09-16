@@ -1,0 +1,771 @@
+﻿/* =========================================================
+   FITNESS TRACKER - GOAL PAGE
+   Modern Dark / Red UI
+   Designed specifically for goal.aspx
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient( 135deg, rgba(5, 5, 5, 0.97), rgba(20, 5, 7, 0.96) ), url("images/fitnessdcm.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+/* =========================================================
+   LEFT SIDEBAR
+   ========================================================= */
+
+.left {
+    width: 250px;
+    min-height: 100vh;
+    padding: 30px 18px;
+    background: rgba(8, 8, 8, 0.97);
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 5px 10px;
+    margin-bottom: 55px;
+}
+
+    .logo i {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient( 145deg, #ff2929, #b80000 );
+        border-radius: 12px;
+        color: #ffffff;
+        font-size: 20px;
+        box-shadow: 0 10px 30px rgba(235, 14, 14, 0.28);
+    }
+
+    .logo h2 {
+        color: #ffffff;
+        font-size: 16px;
+        line-height: 1.05;
+        letter-spacing: 1.5px;
+        font-weight: 800;
+    }
+
+
+/* =========================================================
+   NAVIGATION MENU
+   ========================================================= */
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 13px 14px;
+        border-radius: 10px;
+        color: #858585;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+        .menu a i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            transition: 0.25s ease;
+        }
+
+        .menu a:hover {
+            color: #ffffff;
+            background: rgba(235, 14, 14, 0.10);
+            transform: translateX(4px);
+        }
+
+            .menu a:hover i {
+                color: #ff3636;
+            }
+
+
+        /* ACTIVE MENU */
+
+        .menu a.active {
+            color: #ffffff;
+            background: linear-gradient( 135deg, #ed1515, #b80707 );
+            box-shadow: 0 12px 30px rgba(194, 11, 11, 0.22);
+        }
+
+            .menu a.active i {
+                color: #ffffff;
+            }
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.logout {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+    .logout a {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 13px 14px;
+        border-radius: 10px;
+        color: #777777;
+        text-decoration: none;
+        font-size: 13px;
+        transition: 0.25s ease;
+    }
+
+        .logout a i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .logout a:hover {
+            color: #ff3333;
+            background: rgba(235, 14, 14, 0.08);
+            transform: translateX(4px);
+        }
+
+
+/* =========================================================
+   RIGHT MAIN CONTENT
+   ========================================================= */
+
+.right {
+    flex: 1;
+    min-width: 0;
+    padding: 45px 55px;
+    background: linear-gradient( 180deg, rgba(10, 10, 10, 0.55), rgba(8, 8, 8, 0.72) );
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.header {
+    max-width: 850px;
+    margin-bottom: 32px;
+}
+
+    .header h1 {
+        font-size: 34px;
+        line-height: 1.15;
+        font-weight: 750;
+        color: #ffffff;
+        margin-bottom: 10px;
+        letter-spacing: -0.5px;
+    }
+
+        .header h1::after {
+            content: "";
+            display: block;
+            width: 52px;
+            height: 4px;
+            margin-top: 14px;
+            border-radius: 10px;
+            background: linear-gradient( 90deg, #ff2424, #9d0000 );
+        }
+
+    .header p {
+        color: #858585;
+        font-size: 13px;
+        line-height: 1.7;
+        max-width: 650px;
+    }
+
+
+/* =========================================================
+   DAILY GOAL CARD
+   ========================================================= */
+
+.goal-card {
+    width: 100%;
+    max-width: 900px;
+    background: linear-gradient( 145deg, rgba(25, 25, 25, 0.96), rgba(12, 12, 12, 0.94) );
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    padding: 27px;
+    margin-bottom: 25px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+    position: relative;
+    overflow: hidden;
+}
+
+
+    /* Red glow on card */
+
+    .goal-card::before {
+        content: "";
+        position: absolute;
+        top: -90px;
+        right: -90px;
+        width: 190px;
+        height: 190px;
+        background: rgba(235, 14, 14, 0.08);
+        border-radius: 50%;
+        filter: blur(25px);
+        pointer-events: none;
+    }
+
+
+/* =========================================================
+   CARD TITLE
+   ========================================================= */
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+    .card-title i {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 11px;
+        color: #ff3030;
+        background: rgba(235, 14, 14, 0.10);
+        border: 1px solid rgba(235, 14, 14, 0.20);
+        font-size: 19px;
+    }
+
+    .card-title h2 {
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 650;
+        letter-spacing: -0.2px;
+    }
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.description {
+    color: #777777;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =========================================================
+   GOAL FORM
+   ========================================================= */
+
+.goal-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =========================================================
+   INPUT GROUP
+   ========================================================= */
+
+.input-group {
+    flex: 1;
+    min-width: 0;
+}
+
+    .input-group label {
+        display: block;
+        color: #bdbdbd;
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+    }
+
+
+/* =========================================================
+   CALORIE INPUT
+   ========================================================= */
+
+.goal-input {
+    display: block;
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.035);
+    color: #ffffff;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+    .goal-input::placeholder {
+        color: #555555;
+    }
+
+    .goal-input:hover {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.045);
+    }
+
+    .goal-input:focus {
+        border-color: #ed1b1b;
+        background: rgba(255, 255, 255, 0.055);
+        box-shadow: 0 0 0 4px rgba(235, 14, 14, 0.08);
+    }
+
+
+    /* Remove number spinner where possible */
+
+    .goal-input::-webkit-inner-spin-button,
+    .goal-input::-webkit-outer-spin-button {
+        opacity: 0.5;
+    }
+
+
+/* =========================================================
+   SET GOAL BUTTON
+   ========================================================= */
+
+.goal-btn {
+    height: 46px;
+    min-width: 130px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 9px;
+    background: linear-gradient( 135deg, #f02020, #b80707 );
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(194, 11, 11, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+    .goal-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient( 135deg, #ff2929, #c40808 );
+        box-shadow: 0 15px 35px rgba(194, 11, 11, 0.30);
+    }
+
+    .goal-btn:active {
+        transform: translateY(0);
+    }
+
+
+/* =========================================================
+   SUCCESS / ERROR MESSAGE
+   ========================================================= */
+
+.goal-message {
+    display: block;
+    margin-top: 18px;
+    padding: 12px 15px;
+    border-radius: 9px;
+    background: rgba(235, 14, 14, 0.07);
+    border: 1px solid rgba(235, 14, 14, 0.16);
+    color: #ffb5b5;
+    font-size: 12px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =========================================================
+   GOAL HISTORY CARD
+   ========================================================= */
+
+.table-card {
+    width: 100%;
+    max-width: 900px;
+    background: linear-gradient( 145deg, rgba(23, 23, 23, 0.96), rgba(11, 11, 11, 0.94) );
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px;
+    padding: 27px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   TABLE RESPONSIVE
+   ========================================================= */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-card table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 500px;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.table-card thead {
+    background: rgba(235, 14, 14, 0.92);
+}
+
+.table-card th {
+    padding: 14px 17px;
+    color: #ffffff;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.table-card td {
+    padding: 16px 17px;
+    color: #b6b6b6;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+    background: rgba(255, 255, 255, 0.008);
+    transition: 0.2s ease;
+}
+
+.table-card tbody tr {
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+    .table-card tbody tr:hover {
+        background: rgba(235, 14, 14, 0.055);
+    }
+
+    .table-card tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+/* =========================================================
+   CALORIE COLUMN
+   ========================================================= */
+
+.table-card td:last-child {
+    color: #ff6868;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   NO HISTORY MESSAGE
+   ========================================================= */
+
+#history .goal-message {
+    margin-top: 15px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.025);
+    border-color: rgba(255, 255, 255, 0.07);
+    color: #777777;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #090909;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 10px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #e30f0f;
+    }
+
+
+/* =========================================================
+   TEXT SELECTION
+   ========================================================= */
+
+::selection {
+    background: rgba(235, 14, 14, 0.35);
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .left {
+        width: 220px;
+    }
+
+    .right {
+        padding: 35px 30px;
+    }
+
+    .header h1 {
+        font-size: 30px;
+    }
+
+    .goal-card,
+    .table-card {
+        max-width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        display: block;
+    }
+
+    /* Sidebar becomes top navigation */
+
+    .left {
+        width: 100%;
+        min-height: auto;
+        padding: 18px;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .logo {
+        margin-bottom: 20px;
+        padding-left: 3px;
+    }
+
+    .menu {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 3px;
+    }
+
+        .menu a {
+            flex-shrink: 0;
+            padding: 11px 14px;
+        }
+
+            .menu a span {
+                display: inline;
+            }
+
+    .logout {
+        margin-top: 15px;
+        padding-top: 12px;
+    }
+
+        .logout a {
+            justify-content: center;
+        }
+
+    /* Main content */
+
+    .right {
+        padding: 28px 18px;
+    }
+
+    .header {
+        margin-bottom: 25px;
+    }
+
+        .header h1 {
+            font-size: 27px;
+        }
+
+        .header p {
+            font-size: 12px;
+        }
+
+    /* Goal form becomes vertical */
+
+    .goal-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .goal-btn {
+        width: 100%;
+    }
+
+    .goal-card,
+    .table-card {
+        padding: 21px;
+        border-radius: 15px;
+    }
+
+    .card-title h2 {
+        font-size: 16px;
+    }
+
+    .description {
+        margin-bottom: 20px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+    .right {
+        padding: 24px 13px;
+    }
+
+    .left {
+        padding: 15px 12px;
+    }
+
+    .logo {
+        margin-bottom: 17px;
+    }
+
+        .logo i {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+        }
+
+        .logo h2 {
+            font-size: 14px;
+        }
+
+    .menu {
+        gap: 5px;
+    }
+
+        .menu a {
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+
+            .menu a i {
+                font-size: 14px;
+            }
+
+    .goal-card,
+    .table-card {
+        padding: 18px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .card-title {
+        gap: 10px;
+    }
+
+        .card-title i {
+            width: 39px;
+            height: 39px;
+            font-size: 17px;
+        }
+
+        .card-title h2 {
+            font-size: 15px;
+        }
+}

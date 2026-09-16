@@ -1,0 +1,7 @@
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\bin\ywmDDOCP.dll.config
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\bin\ywmDDOCP.dll
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\bin\ywmDDOCP.pdb
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\obj\Debug\ywmDDOCP.dll
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\obj\Debug\ywmDDOCP.pdb
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\obj\Debug\ywmDDOCP.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Desktop\DDOCPASSIGNMENT\ywmDDOCP\ywmDDOCP\obj\Debug\ywmDDOCP.csproj.CoreCompileInputs.cache

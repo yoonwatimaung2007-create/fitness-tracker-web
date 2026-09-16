@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace ywmDDOCP
+{
+    public partial class login : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            String name, password;
+            name = uname.Value;
+            password = upass.Value;
+            int uid = ywmDBhandler.Login(name, password);
+            if(uid==-1)
+            {
+                msg.Text = "Login Fail";
+            }
+            else
+            {
+                Store.setUserId(uid);
+                Response.Redirect("goal.aspx");
+
+            }
+        }
+    }
+}
