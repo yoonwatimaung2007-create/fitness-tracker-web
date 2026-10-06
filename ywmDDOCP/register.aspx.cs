@@ -24,15 +24,14 @@ namespace ywmDDOCP
             if(password!=cpassword)
             {
                 msg.Text = "Passwords do not match!";
-                msg.ForeColor = System.Drawing.Color.Red;
-
+                msg.CssClass = "message error";
             }
             else
             {
                 bool ans= ywmDBhandler.register(name, password,email);
                 if(ans)
                 {
-                    // Registration successful; redirect to login page
+                    // Registration successful; redirect to login page immediately
                     Response.Redirect("login.aspx");
                     return;
                 }

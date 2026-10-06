@@ -12,10 +12,14 @@
 
 <title>Fitness Tracker | Dashboard</title>
 
+<link rel="stylesheet" href="style.css" />
 <link rel="stylesheet" runat="server" href="dstyle.css" />
+<link rel="stylesheet" href="gstyle.css" />
 
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<!-- Bootstrap Icons (used by other pages) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -23,80 +27,51 @@
 
 <form id="form1" runat="server">
 
-<div class="dashboard-container">
+<div class="container">
 
 
     <!-- =====================================
          SIDEBAR
     ====================================== -->
 
-    <aside class="sidebar">
+    <div class="left">
 
-        <div class="brand">
-
-            <div class="brand-icon">
-                <i class="fa-solid fa-dumbbell"></i>
-            </div>
-
-            <div>
-                <h2>FITNESS</h2>
-                <span>TRACKER</span>
-            </div>
-
-        </div>
+        <!-- Logo -->
+        <h2 class="site-title">FitFlow</h2>
 
 
-        <div class="sidebar-label">
-            MAIN MENU
-        </div>
+        <div class="menu">
 
+            <a href="goal.aspx">
+                <i class="bi bi-bullseye"></i>
+                <span>Set Goal</span>
+            </a>
 
-        <nav class="sidebar-menu">
-
-            <a href="dashboard.aspx" class="menu-item active">
-
-                <i class="fa-solid fa-grid-2"></i>
-
+            <a href="dashboard.aspx" class="active">
+                <i class="bi bi-person-running"></i>
                 <span>Dashboard</span>
-
             </a>
 
-
-            <a href="goal.aspx" class="menu-item">
-
-                <i class="fa-solid fa-bullseye"></i>
-
-                <span>Goals</span>
-
+            <a href="progress.aspx">
+                <i class="bi bi-graph-up"></i>
+                <span>Progress</span>
             </a>
 
-
-            <a href="#" class="menu-item">
-
-                <i class="fa-solid fa-person-running"></i>
-
-                <span>Activities</span>
-
-            </a>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-            <div class="sidebar-divider"></div>
-
-            <a href="login.aspx" class="logout-item">
-
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-                <span>Logout</span>
-
+            <a href="goal.aspx#history">
+                <i class="bi bi-clock-history"></i>
+                <span>Goal History</span>
             </a>
 
         </div>
 
-    </aside>
+        <div class="logout">
+            <a href="javascript:logout();">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+
+    </div>
 
 
 
@@ -104,39 +79,21 @@
          MAIN CONTENT
     ====================================== -->
 
-    <main class="main-content">
+    <div class="right">
 
+        <!-- PAGE HEADER (use goal.aspx header structure for consistent layout) -->
+        <div class="header">
 
-        <!-- HEADER -->
+            <h1>Activity Dashboard</h1>
 
-        <header class="top-header">
+            <p>Track your workouts and stay consistent with your fitness journey.</p>
 
-            <div>
+        </div>
 
-                <div class="eyebrow">
-                    FITNESS TRACKER
-                </div>
-
-                <h1>
-                    Activity Dashboard
-                </h1>
-
-                <p>
-                    Track your workouts and stay consistent with your fitness journey.
-                </p>
-
-            </div>
-
-
-            <div class="status">
-
-                <span class="status-dot"></span>
-
-                <span>Active</span>
-
-            </div>
-
-        </header>
+        <div class="status">
+            <span class="status-dot"></span>
+            <span>Active</span>
+        </div>
 
 
 
@@ -144,9 +101,17 @@
 
         <asp:Label
             ID="msg"
-            runat="server"
-            CssClass="goal-message">
+            runat="server">
         </asp:Label>
+
+        <!-- Inline field error above submit (reuses field-error UI) -->
+        <div id="fieldError" class="field-error hidden" role="alert" aria-live="assertive">
+            <div class="fe-left">
+                <div class="fe-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="fe-text"></div>
+            </div>
+            <button type="button" class="fe-close" aria-label="Close">✕</button>
+        </div>
 
 
 
@@ -601,6 +566,55 @@
 
 <script type="text/javascript">
     (function () {
+        // fieldError helpers for dashboard page
+        function showFieldError(message){
+            var field = document.getElementById('fieldError');
+            if(!field) return;
+            var text = field.querySelector('.fe-text');
+            if(text) text.textContent = message || '';
+            field.classList.remove('hidden');
+            setTimeout(function(){ if(field) field.classList.add('visible'); }, 10);
+        }
+
+        function hideFieldError(){
+            var field = document.getElementById('fieldError');
+            if(!field) return;
+            field.classList.remove('visible');
+            setTimeout(function(){ field.classList.add('hidden'); }, 240);
+        }
+
+        document.addEventListener('click', function(e){
+            var t = e.target || e.srcElement;
+            try {
+                if(t && t.classList && t.classList.contains('fe-close')){
+                    hideFieldError();
+                }
+            } catch (ex) { /* defensive: ignore host typing errors */ }
+        });
+
+        // hide when user focuses any input in main content
+        document.addEventListener('focusin', function(e){
+            var t = e.target || e.srcElement;
+            if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')){
+                hideFieldError();
+            }
+        });
+
+        var lblMsg = document.getElementById('<%= msg.ClientID %>');
+        if(lblMsg){
+            var t = (lblMsg.innerText || lblMsg.textContent || '').trim();
+            if(t){
+                // If server produced a success message, keep it visible with success styling
+                if(lblMsg.classList && lblMsg.classList.contains('field-success')){
+                    lblMsg.classList.add('visible');
+                } else {
+                    // otherwise treat as error and show inline animation
+                    lblMsg.style.display='none';
+                    showFieldError(t);
+                }
+            }
+        }
+
         var items = document.querySelectorAll('#sportsList .sport-item');
         var panels = document.querySelectorAll('.sport-panel');
         var hf = document.getElementById('<%= hfSelectedSport.ClientID %>');
@@ -631,9 +645,24 @@
                 if (hf) hf.value = target; // persist selection for postback
             });
         });
+    // Logout helper (submits to server logout handler)
+    function logout(){
+        var f = document.getElementById('logoutForm');
+        if(!f){
+            f = document.createElement('form');
+            f.method = 'post';
+            f.action = 'logout.aspx';
+            f.style.display = 'none';
+            document.body.appendChild(f);
+            f.submit();
+            return;
+        }
+        f.submit();
+    }
     })();
 </script>
 
 </body>
 
 </html>
+<!-- EOF: dashboard.aspx - placeholder to ensure file end context -->

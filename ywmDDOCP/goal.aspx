@@ -6,19 +6,22 @@
 <html lang="en">
 
 <head>
-
+     
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Fitness Tracker - Goal</title>
+    <title>FitFlow - Goal</title>
 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dstyle.css">
     <link rel="stylesheet" href="gstyle.css">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
@@ -38,87 +41,38 @@
 
             <div class="left">
 
-
-                <!-- Logo -->
-
-                <div class="logo">
-
-                    <i class="bi bi-heart-pulse-fill"></i>
-
-                    <h2>
-                        FITNESS<br>
-                        TRACKER
-                    </h2>
-
-                </div>
-
-
-                <!-- Navigation Menu -->
+                <h2 class="site-title">FitFlow</h2>
 
                 <div class="menu">
 
-
-                    <!-- Set Goal -->
-
                     <a href="goal.aspx" class="active">
-
                         <i class="bi bi-bullseye"></i>
-
                         <span>Set Goal</span>
-
                     </a>
-
-
-                    <!-- Set Activity -->
 
                     <a href="dashboard.aspx">
-
                         <i class="bi bi-person-running"></i>
-
                         <span>Dashboard</span>
-
                     </a>
-
-
-                    <!-- Progress -->
 
                     <a href="progress.aspx">
-
                         <i class="bi bi-graph-up"></i>
-
                         <span>Progress</span>
-
                     </a>
-
-
-                    <!-- Goal History -->
 
                     <a href="#history">
-
                         <i class="bi bi-clock-history"></i>
-
                         <span>Goal History</span>
-
                     </a>
 
-
                 </div>
-
-
-                <!-- Logout -->
 
                 <div class="logout">
-
-                    <a href="logout.aspx">
-
+                    <a href="javascript:logout();">
                         <i class="bi bi-box-arrow-right"></i>
-
                         <span>Logout</span>
-
                     </a>
-
                 </div>
-
 
             </div>
 
@@ -176,6 +130,8 @@
 
                     <!-- Goal Form -->
 
+
+                    <!-- make form horizontal on wider screens; CSS controls stacking on small screens -->
                     <div class="goal-form">
 
 
@@ -215,12 +171,23 @@
 
 
                     <!-- Success / Error Message -->
+                    <asp:Panel ID="msgPanel" runat="server" CssClass="field-success" Visible="false" role="alert">
+                        <div class="fe-left">
+                            <div class="fe-icon"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="fe-text"><asp:Literal ID="msgText" runat="server" /></div>
+                        </div>
+                        <button type="button" class="fe-close" aria-label="Close">✕</button>
+                    </asp:Panel>
 
-                    <asp:Label
-                        ID="msg"
-                        runat="server"
-                        CssClass="goal-message">
-                    </asp:Label>
+                    <!-- Inline field error above submit (matches login/register) -->
+                    <div id="fieldError" class="field-error hidden" role="alert" aria-live="assertive">
+                        <div class="fe-left">
+                            <div class="fe-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="fe-text"></div>
+                        </div>
+                        <!-- placeholder: keep fieldError region for inline errors -->
+                        <button type="button" class="fe-close" aria-label="Close">✕</button>
+                    </div>
 
 
                 </div>
@@ -359,6 +326,58 @@
         </div>
 
     </form>
+    <form id="logoutForm" method="post" action="logout.aspx" style="display:none"></form>
+    <script>
+        (function(){
+            function showFieldError(message){
+                var field = document.getElementById('fieldError');
+                if(!field) return;
+                var text = field.querySelector('.fe-text');
+                if(text) text.textContent = message || '';
+                field.classList.remove('hidden');
+                setTimeout(function(){ field.classList.add('visible'); }, 10);
+            }
+
+            function hideFieldError(){
+                var field = document.getElementById('fieldError');
+                if(!field) return;
+                field.classList.remove('visible');
+                setTimeout(function(){ field.classList.add('hidden'); }, 240);
+            }
+
+            document.addEventListener('click', function(e){
+                var target = e.target || e.srcElement;
+                if(target && target.classList && target.classList.contains('fe-close')){
+                    hideFieldError();
+                }
+            });
+
+            // hide on input focus
+            var focusables = document.querySelectorAll('.right input, .goal-input, textarea');
+            Array.prototype.slice.call(focusables).forEach(function(inp){
+                inp.addEventListener('focus', hideFieldError);
+            });
+
+            var lbl = document.getElementById('<%= msgPanel.ClientID %>');
+            if(lbl){
+                // message panel contains .fe-text with the visible message
+                var textEl = lbl.querySelector('.fe-text');
+                var text = textEl ? (textEl.innerText || textEl.textContent || '').trim() : (lbl.innerText || lbl.textContent || '').trim();
+                if(text){
+                    // If server rendered a success panel, keep it visible (green).
+                    if(lbl.classList && lbl.classList.contains('field-success')){
+                        // ensure visible class is applied for animation
+                        lbl.classList.add('visible');
+                    }
+                    else {
+                        // For errors, hide server panel and show inline field-error animation
+                        lbl.style.display='none';
+                        showFieldError(text);
+                    }
+                }
+            }
+        })();
+    </script>
 
 </body>
 

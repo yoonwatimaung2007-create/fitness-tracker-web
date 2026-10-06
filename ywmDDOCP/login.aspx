@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="ywmDDOCP.login" %>
+<!-- Logo removed -->
 
 
 
@@ -8,9 +9,9 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">'
 
-    <title>Fitness Tracker</title>
+    <title>FitFlow</title>
 
     <link rel="stylesheet" runat="server" href="style.css" />
 
@@ -28,11 +29,7 @@
 
             <!-- Left Side -->
             <div class="left">
-
-                <h1>
-                    FITNESS<br>
-                    TRACKER
-                </h1>
+                <h2 class="site-title">FitFlow</h2>
 
                 <p>
                     Start your fitness journey today and achieve
@@ -99,6 +96,14 @@
 
 
                     <!-- Login Button -->
+                    <div id="fieldError" class="field-error hidden" role="alert" aria-live="assertive">
+                        <div class="fe-left">
+                            <div class="fe-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="fe-text"></div>
+                        </div>
+                        <button type="button" class="fe-close" aria-label="Close">✕</button>
+                    </div>
+
                     <div class="btnrow">
 
                         <asp:Button ID="btnLogin"
@@ -130,21 +135,37 @@
     </div>
     
 
-    <!-- Toast container -->
-    <div class="toast-container" id="toastContainer" style="display:none"></div>
-
     <script>
         (function(){
-            function showToast(title, message, type){
-                var container = document.getElementById('toastContainer');
-                if(!container) return;
-                container.style.display='block';
-                var toast = document.createElement('div');
-                toast.className = 'toast ' + (type||'error');
-                toast.innerHTML = '<div class="title">'+(title||'')+'</div><div class="message">'+(message||'')+'</div>';
-                container.appendChild(toast);
-                setTimeout(function(){ toast.classList.add('show'); }, 10);
-                setTimeout(function(){ toast.classList.remove('show'); setTimeout(function(){ try{ container.removeChild(toast); }catch(e){} if(container.children.length===0) container.style.display='none'; },300); }, 4500);
+            function showFieldError(message){
+                var field = document.getElementById('fieldError');
+                if(!field) return;
+                var text = field.querySelector('.fe-text');
+                if(text) text.textContent = message || '';
+                field.classList.remove('hidden');
+                // animate in
+                setTimeout(function(){ field.classList.add('visible'); }, 10);
+            }
+
+            function hideFieldError(){
+                var field = document.getElementById('fieldError');
+                if(!field) return;
+                field.classList.remove('visible');
+                setTimeout(function(){ field.classList.add('hidden'); }, 240);
+            }
+
+            // close button
+            document.addEventListener('click', function(e){
+                if(e.target && e.target.classList && e.target.classList.contains('fe-close')){
+                    hideFieldError();
+                }
+            });
+
+            // auto-hide after timeout (disabled per user request)
+            var hideTimer = null;
+            function scheduleAutoHide(){
+                if(hideTimer) clearTimeout(hideTimer);
+                // intentionally left blank to keep error visible until user closes
             }
 
             var lbl = document.getElementById('<%= msg.ClientID %>');
@@ -152,9 +173,15 @@
                 var text = (lbl.innerText || lbl.textContent || '').trim();
                 if(text){
                     lbl.style.display='none';
-                    showToast('Error', text, 'error');
+                    showFieldError(text);
+                    scheduleAutoHide();
                 }
             }
+
+            // hide when user focuses an input
+            Array.prototype.slice.call(document.querySelectorAll('.right input')).forEach(function(inp){
+                inp.addEventListener('focus', hideFieldError);
+            });
         })();
     </script>
 

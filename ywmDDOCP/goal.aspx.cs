@@ -28,7 +28,9 @@ namespace ywmDDOCP
             int uid = Store.getUserId();
             if (uid == -1)
             {
-                msg.Text = "You must be logged in to set a goal.";
+                msgText.Text = "You must be logged in to set a goal.";
+                msgPanel.CssClass = "field-error visible";
+                msgPanel.Visible = true;
                 return;
             }
 
@@ -36,7 +38,9 @@ namespace ywmDDOCP
             int cal;
             if (!int.TryParse(txtCalories.Text, out cal) || cal <= 0)
             {
-                msg.Text = "Please enter a valid positive number for calories.";
+                msgText.Text = "Please enter a valid positive number for calories.";
+                msgPanel.CssClass = "field-error visible";
+                msgPanel.Visible = true;
                 return;
             }
 
@@ -48,19 +52,27 @@ namespace ywmDDOCP
             catch (Exception ex)
             {
                 // Surface a helpful message for debugging; in production log this instead
-                msg.Text = "Error setting goal: " + ex.Message;
+                msgText.Text = "Error setting goal: " + ex.Message;
+                msgPanel.CssClass = "field-error visible";
+                msgPanel.Visible = true;
                 return;
             }
 
             if (ans)
             {
-                msg.Text = "Goal Successfully Set!";
+                // Show success panel
+                msgText.Text = "Goal Successfully Set!";
+                msgPanel.CssClass = "field-success visible";
+                msgPanel.Visible = true;
                 txtCalories.Text = "";
                 LoadGoalHistory();
             }
             else
             {
-                msg.Text = "Try Again!";
+                // Show error using same panel style but swapped classes
+                msgText.Text = "Try Again!";
+                msgPanel.CssClass = "field-error visible";
+                msgPanel.Visible = true;
             }
         }
 

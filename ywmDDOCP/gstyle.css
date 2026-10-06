@@ -15,6 +15,35 @@
     box-sizing: border-box;
 }
 
+/* Inline field error shown above submit buttons (shared style)
+   Copied from style.css to ensure consistent appearance on goal page */
+.field-error{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+    padding:10px 12px;
+    margin-bottom:12px;
+    border-radius:8px;
+    background: linear-gradient(90deg,var(--danger), #c0392b);
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+    box-shadow:0 10px 28px rgba(192,57,43,0.16);
+    opacity:0;
+    transform:translateY(-8px);
+    transition: opacity 220ms ease, transform 220ms ease;
+}
+.field-error.hidden{ display:none; }
+.field-error.visible{ opacity:1; transform:none; }
+.field-error .fe-left{ display:flex; align-items:center; gap:10px; flex:1; min-width:0 }
+.field-error .fe-icon{ width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; background:rgba(255,255,255,0.10); color:#fff; font-size:16px }
+.field-error .fe-text{ flex:1; font-size:13px; color:#fff; overflow:visible; text-overflow:unset; white-space:normal; word-break:break-word }
+.field-error .fe-close{ margin-left:12px; cursor:pointer; background:transparent; border:0; color:rgba(255,255,255,0.95); font-weight:700; font-size:14px; padding:6px; border-radius:6px }
+.field-error .fe-close:hover{ background:rgba(255,255,255,0.06) }
+.field-error.small{ padding:8px 10px; font-size:13px }
+
 
 /* =========================================================
    BODY
@@ -55,7 +84,7 @@ body {
     width: 250px;
     min-height: 100vh;
     padding: 30px 18px;
-    background: rgba(8, 8, 8, 0.97);
+    background: var(--panel-bg);
     border-right: 1px solid rgba(255, 255, 255, 0.07);
     display: flex;
     flex-direction: column;
@@ -83,19 +112,18 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient( 145deg, #ff2929, #b80000 );
-        border-radius: 12px;
-        color: #ffffff;
+        background: none;
+        border-radius: 8px;
+        color: var(--accent);
         font-size: 20px;
-        box-shadow: 0 10px 30px rgba(235, 14, 14, 0.28);
     }
 
     .logo h2 {
-        color: #ffffff;
+        color: var(--text);
         font-size: 16px;
         line-height: 1.05;
         letter-spacing: 1.5px;
-        font-weight: 800;
+        font-weight: 700;
     }
 
 
@@ -129,14 +157,14 @@ body {
             transition: 0.25s ease;
         }
 
-        .menu a:hover {
+            .menu a:hover {
             color: #ffffff;
-            background: rgba(235, 14, 14, 0.10);
+            background: rgba(166,127,52,0.10);
             transform: translateX(4px);
         }
 
             .menu a:hover i {
-                color: #ff3636;
+                color: var(--accent);
             }
 
 
@@ -144,8 +172,8 @@ body {
 
         .menu a.active {
             color: #ffffff;
-            background: linear-gradient( 135deg, #ed1515, #b80707 );
-            box-shadow: 0 12px 30px rgba(194, 11, 11, 0.22);
+            background: linear-gradient( 135deg, var(--accent), var(--accent-dark) );
+            box-shadow: 0 12px 30px rgba(166,127,52,0.18);
         }
 
             .menu a.active i {
@@ -182,8 +210,8 @@ body {
         }
 
         .logout a:hover {
-            color: #ff3333;
-            background: rgba(235, 14, 14, 0.08);
+            color: var(--accent);
+            background: var(--accent-light);
             transform: translateX(4px);
         }
 
@@ -225,7 +253,7 @@ body {
             height: 4px;
             margin-top: 14px;
             border-radius: 10px;
-            background: linear-gradient( 90deg, #ff2424, #9d0000 );
+            background: linear-gradient( 90deg, var(--accent), var(--accent-dark) );
         }
 
     .header p {
@@ -263,7 +291,7 @@ body {
         right: -90px;
         width: 190px;
         height: 190px;
-        background: rgba(235, 14, 14, 0.08);
+        background: var(--accent-light);
         border-radius: 50%;
         filter: blur(25px);
         pointer-events: none;
@@ -290,9 +318,9 @@ body {
         align-items: center;
         justify-content: center;
         border-radius: 11px;
-        color: #ff3030;
-        background: rgba(235, 14, 14, 0.10);
-        border: 1px solid rgba(235, 14, 14, 0.20);
+        color: var(--accent);
+        background: var(--accent-light);
+        border: 1px solid rgba(166,127,52,0.20);
         font-size: 19px;
     }
 
@@ -336,8 +364,22 @@ body {
    ========================================================= */
 
 .input-group {
-    flex: 1;
+    /* allow the input group to grow and shrink reliably
+       use explicit flex-basis 0 so it takes remaining space */
+    flex: 1 1 0%;
     min-width: 0;
+}
+
+/* ensure the Set Goal button does not expand and the input retains available space */
+.goal-form .goal-btn {
+    flex: 0 0 auto;
+}
+
+/* On some files dstyle.css sets .goal-btn { width:100% } globally.
+   Force a sensible button width for the horizontal goal-form layout. */
+.goal-card .goal-form .goal-btn {
+    width: auto !important;
+    min-width: 130px;
 }
 
     .input-group label {
@@ -356,7 +398,7 @@ body {
 
 .goal-input {
     display: block;
-    width: 100%;
+/*    width: 80%;*/
     height: 46px;
     padding: 0 14px;
     border-radius: 9px;
@@ -379,9 +421,9 @@ body {
     }
 
     .goal-input:focus {
-        border-color: #ed1b1b;
+        border-color: var(--accent);
         background: rgba(255, 255, 255, 0.055);
-        box-shadow: 0 0 0 4px rgba(235, 14, 14, 0.08);
+        box-shadow: 0 0 0 4px var(--accent-light);
     }
 
 
@@ -403,20 +445,20 @@ body {
     padding: 0 22px;
     border: none;
     border-radius: 9px;
-    background: linear-gradient( 135deg, #f02020, #b80707 );
-    color: #ffffff;
+    background-color: var(--accent);
+    color: #0b1220;
     font-family: inherit;
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(194, 11, 11, 0.18);
+    box-shadow: 0 8px 20px rgba(10,12,16,0.25);
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
     .goal-btn:hover {
         transform: translateY(-2px);
-        background: linear-gradient( 135deg, #ff2929, #c40808 );
-        box-shadow: 0 15px 35px rgba(194, 11, 11, 0.30);
+        background-color: var(--accent-dark);
+        box-shadow: 0 12px 30px rgba(10,12,16,0.30);
     }
 
     .goal-btn:active {
@@ -433,9 +475,9 @@ body {
     margin-top: 18px;
     padding: 12px 15px;
     border-radius: 9px;
-    background: rgba(235, 14, 14, 0.07);
-    border: 1px solid rgba(235, 14, 14, 0.16);
-    color: #ffb5b5;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #777777;
     font-size: 12px;
     line-height: 1.5;
     position: relative;
@@ -487,7 +529,7 @@ body {
    ========================================================= */
 
 .table-card thead {
-    background: rgba(235, 14, 14, 0.92);
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
 }
 
 .table-card th {
@@ -520,7 +562,7 @@ body {
 }
 
     .table-card tbody tr:hover {
-        background: rgba(235, 14, 14, 0.055);
+        background: var(--accent-light);
     }
 
     .table-card tbody tr:last-child td {
@@ -533,7 +575,7 @@ body {
    ========================================================= */
 
 .table-card td:last-child {
-    color: #ff6868;
+    color: var(--danger);
     font-weight: 700;
 }
 
@@ -570,7 +612,7 @@ body {
 }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #e30f0f;
+        background: var(--accent);
     }
 
 
@@ -578,8 +620,8 @@ body {
    TEXT SELECTION
    ========================================================= */
 
-::selection {
-    background: rgba(235, 14, 14, 0.35);
+    ::selection {
+    background: var(--accent-light);
     color: #ffffff;
 }
 

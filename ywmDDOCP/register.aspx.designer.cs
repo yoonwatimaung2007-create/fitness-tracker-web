@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ywmDDOCP {
-    
-    
-    public partial class register {
-        
+namespace ywmDDOCP
+{
+
+
+    public partial class register
+    {
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -20,16 +22,16 @@ namespace ywmDDOCP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
-        /// msg control.
+        /// successMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label msg;
-        
+        protected global::System.Web.UI.WebControls.Label successMsg;
+
         /// <summary>
         /// uname control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ywmDDOCP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText uname;
-        
+
         /// <summary>
         /// usernameError control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ywmDDOCP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label usernameError;
-        
+
         /// <summary>
         /// uemail control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ywmDDOCP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl uemail;
-        
+
         /// <summary>
         /// upass control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace ywmDDOCP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputPassword upass;
-        
+
         /// <summary>
         /// ucpass control.
         /// </summary>
@@ -74,7 +76,16 @@ namespace ywmDDOCP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputPassword ucpass;
-        
+
+        /// <summary>
+        /// msg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label msg;
+
         /// <summary>
         /// btnRegister control.
         /// </summary>

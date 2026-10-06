@@ -31,7 +31,8 @@ namespace ywmDDOCP
         {
             try
             {
-                con.Close();
+                if (con != null && con.State != ConnectionState.Closed)
+                    con.Close();
                 return true;
             }
             catch
@@ -68,6 +69,7 @@ namespace ywmDDOCP
                 return false;
             }
         }
+
         public static int Login(String name, String password)
         {
             int id = -1;
@@ -84,6 +86,7 @@ namespace ywmDDOCP
                 {
                     id = Convert.ToInt16(reader["ID"].ToString());
                 }
+                reader.Close();
                 closeConnection();
 
             }
@@ -94,6 +97,7 @@ namespace ywmDDOCP
             }
             return id;
         }
+
         public static bool insertGoal(int calories, int uid)
         {
             try
@@ -129,6 +133,7 @@ namespace ywmDDOCP
                 throw;
             }
         }
+
         public static DataTable getGoalHistory(int uid)
         {
             DataTable dt = new DataTable();
@@ -202,18 +207,57 @@ namespace ywmDDOCP
                     return false;
                 }
 
-                // Ensure activities table exists
+                // Ensure activities table exists (with calories column)
+                EnsureActivitiesTableExists();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+
+                // Backwards-compatible overload: if this method is called (3 params), insert with NULL calories
+                cmd.CommandText =
+                    "INSERT INTO dbo.activities(activity_type, details, calories, user_id, date) " +
+                    "VALUES(@t, @d, @c, @u, GETDATE())";
+
+                cmd.Parameters.AddWithValue("@t", activityType);
+                cmd.Parameters.AddWithValue("@d", details ?? string.Empty);
+                cmd.Parameters.AddWithValue("@c", DBNull.Value);
+                cmd.Parameters.AddWithValue("@u", uid);
+
+                int line = cmd.ExecuteNonQuery();
+
+                closeConnection();
+
+                return line > 0;
+            }
+            catch (Exception)
+            {
+                closeConnection();
+                throw;
+            }
+        }
+
+        // New overload: insert activity with explicit calories value
+        public static bool insertActivity(string activityType, string details, int calories, int uid)
+        {
+            try
+            {
+                if (!openConnection())
+                {
+                    return false;
+                }
+
                 EnsureActivitiesTableExists();
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
 
                 cmd.CommandText =
-                    "INSERT INTO dbo.activities(activity_type, details, user_id, date) " +
-                    "VALUES(@t, @d, @u, GETDATE())";
+                    "INSERT INTO dbo.activities(activity_type, details, calories, user_id, date) " +
+                    "VALUES(@t, @d, @c, @u, GETDATE())";
 
                 cmd.Parameters.AddWithValue("@t", activityType);
                 cmd.Parameters.AddWithValue("@d", details ?? string.Empty);
+                cmd.Parameters.AddWithValue("@c", calories);
                 cmd.Parameters.AddWithValue("@u", uid);
 
                 int line = cmd.ExecuteNonQuery();
@@ -233,9 +277,16 @@ namespace ywmDDOCP
         {
             try
             {
+                // Ensure the connection is open so that DDL (CREATE TABLE) can be executed.
+                if (con == null || con.State != ConnectionState.Open)
+                {
+                    openConnection();
+                }
+
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
 
+                // Create table if missing, and ensure 'calories' column exists.
                 cmd.CommandText =
                     "IF OBJECT_ID('dbo.activities','U') IS NULL " +
                     "BEGIN " +
@@ -243,10 +294,14 @@ namespace ywmDDOCP
                     "Id INT IDENTITY(1,1) PRIMARY KEY, " +
                     "activity_type NVARCHAR(100) NULL, " +
                     "details NVARCHAR(400) NULL, " +
+                    "calories INT NULL, " +
                     "user_id INT NULL, " +
                     "[date] DATETIME NULL); " +
-                    "END";
+                    "END; " +
+                    "IF OBJECT_ID('dbo.activities','U') IS NOT NULL AND COL_LENGTH('dbo.activities','calories') IS NULL " +
+                    "BEGIN ALTER TABLE dbo.activities ADD calories INT NULL; END";
 
+                // Execute the DDL to create the table if it does not exist or add missing column.
                 cmd.ExecuteNonQuery();
             }
             catch
@@ -272,7 +327,7 @@ namespace ywmDDOCP
                 cmd.Connection = con;
 
                 cmd.CommandText =
-                    "SELECT activity_type, details, [date] " +
+                    "SELECT activity_type, details, ISNULL(calories, 0) AS calories, [date] " +
                     "FROM dbo.activities " +
                     "WHERE user_id = @u " +
                     "ORDER BY [date] DESC";
@@ -292,6 +347,80 @@ namespace ywmDDOCP
             }
 
             return dt;
+        }
+
+        // Return estimated total calories burned for a specific user on a specific date.
+        // This attempts to parse integer calorie values from the activity details text.
+        public static int getTotalCaloriesForDate(int uid, DateTime date)
+        {
+            int total = 0;
+            try
+            {
+                if (!openConnection()) return total;
+
+                EnsureActivitiesTableExists();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+
+                cmd.CommandText =
+                    "SELECT details FROM dbo.activities WHERE user_id = @u AND CONVERT(date, [date]) = @d";
+
+                cmd.Parameters.AddWithValue("@u", uid);
+                cmd.Parameters.AddWithValue("@d", date.Date);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex("(\\d+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+                while (reader.Read())
+                {
+                    var det = reader["details"] == DBNull.Value ? string.Empty : reader["details"].ToString();
+                    if (string.IsNullOrWhiteSpace(det)) continue;
+
+                    // find all integer tokens and sum them as calories (best-effort)
+                    var m = rx.Matches(det);
+                    foreach (System.Text.RegularExpressions.Match mm in m)
+                    {
+                        int v;
+                        if (int.TryParse(mm.Value, out v))
+                        {
+                            total += v;
+                        }
+                    }
+                }
+                reader.Close();
+            }
+            catch
+            {
+                // ignore parse errors; return what we have
+            }
+            finally
+            {
+                closeConnection();
+            }
+
+            return total;
+        }
+
+        // Parse integer tokens from a details string and sum them as calories (best-effort)
+        public static int parseCaloriesFromText(string details)
+        {
+            if (string.IsNullOrWhiteSpace(details)) return 0;
+            int total = 0;
+            try
+            {
+                System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex("(\\d+)", System.Text.RegularExpressions.RegexOptions.Compiled);
+                var m = rx.Matches(details);
+                foreach (System.Text.RegularExpressions.Match mm in m)
+                {
+                    int v;
+                    if (int.TryParse(mm.Value, out v)) total += v;
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+            return total;
         }
 
     }
